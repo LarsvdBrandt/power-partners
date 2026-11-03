@@ -1,8 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
+  async redirects() {
+    // Keep links to the old JouwWeb page working
+    return [{ source: "/adviesgesprek", destination: "/contact", permanent: true }];
+  },
   partialPrefetching: true,
   turbopack: {
     rules: {
