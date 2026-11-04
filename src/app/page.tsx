@@ -83,7 +83,7 @@ export default function Home() {
               zoeken altijd vrijblijvend naar de beste energieoplossing voor uw
               bedrijf.
             </p>
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <ButtonLink href="/contact" variant="light" arrow>
                 Plan een adviesgesprek
               </ButtonLink>

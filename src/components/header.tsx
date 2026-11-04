@@ -35,18 +35,38 @@ export function Header() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
+    // The header box itself ignores taps so it never blocks the page underneath;
+    // only the bar and the open menu are interactive.
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
+      {open && (
+        <button
+          type="button"
+          aria-label="Menu sluiten"
+          tabIndex={-1}
+          onClick={() => setOpen(false)}
+          className="pointer-events-auto fixed inset-0 -z-10 bg-ink/40 backdrop-blur-sm lg:hidden"
+        />
+      )}
+
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-brand border py-2 pr-2 pl-4 transition-all duration-500 sm:pl-5 ${
+        className={`pointer-events-auto mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-brand border py-2 pr-2 pl-3 transition-all duration-500 sm:pl-5 ${
           scrolled || open
             ? "border-ink/5 bg-white/95 shadow-xl shadow-ink/5 backdrop-blur-xl"
             : "border-white/60 bg-white/85 backdrop-blur-md"
         }`}
       >
-        <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
+        <Link
+          href="/"
+          aria-label={`${site.name} home`}
+          className="flex min-h-11 shrink-0 items-center px-1"
+        >
           <Image
             src="/images/logo-horizontal.png"
             alt={site.name}
@@ -88,9 +108,16 @@ export function Header() {
             <Icon icon={faPhone} className="text-petrol" />
             {site.phone}
           </a>
+          <a
+            href={site.phoneHref}
+            aria-label={`Bel ${site.phone}`}
+            className="inline-flex size-11 items-center justify-center rounded-brand bg-sky-100 text-petrol transition-transform active:scale-95 sm:hidden"
+          >
+            <Icon icon={faPhone} />
+          </a>
           <Link
             href="/contact"
-            className="hidden rounded-brand bg-ink px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-petrol sm:inline-flex"
+            className="hidden min-h-11 items-center rounded-brand bg-ink px-5 text-sm font-semibold text-white transition-colors hover:bg-petrol sm:inline-flex"
           >
             Adviesgesprek
           </Link>
@@ -100,17 +127,20 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Menu sluiten" : "Menu openen"}
-            className="inline-flex size-11 items-center justify-center rounded-brand bg-mist text-lg text-ink transition-colors hover:bg-sky-100 lg:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-brand bg-mist text-lg text-ink transition-all hover:bg-sky-100 active:scale-95 lg:hidden"
           >
             <Icon icon={open ? faXmark : faBars} />
           </button>
         </div>
       </div>
 
+      {/* Absolutely positioned so the closed menu takes up no space in the header */}
       <div
         id="mobile-menu"
-        className={`mx-auto mt-2 max-w-7xl origin-top overflow-hidden rounded-brand bg-white shadow-2xl shadow-ink/10 transition-all duration-300 lg:hidden ${
-          open ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0"
+        className={`absolute inset-x-3 top-full mt-2 max-h-[calc(100dvh-6rem)] origin-top overflow-y-auto overscroll-contain rounded-brand bg-white shadow-2xl shadow-ink/20 transition-all duration-300 sm:inset-x-5 lg:hidden ${
+          open
+            ? "pointer-events-auto visible scale-100 opacity-100"
+            : "invisible scale-95 opacity-0"
         }`}
       >
         <nav aria-label="Mobiel menu" className="p-3">
@@ -119,7 +149,7 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`block rounded-brand px-4 py-3.5 text-lg font-medium ${
+                  className={`flex min-h-12 items-center rounded-brand px-4 text-lg font-medium transition-colors active:bg-sky-100 ${
                     pathname === item.href
                       ? "bg-sky-50 text-petrol"
                       : "text-ink hover:bg-mist"
@@ -133,13 +163,13 @@ export function Header() {
           <div className="mt-3 grid gap-2 border-t border-ink/5 p-2 pt-4 sm:grid-cols-2">
             <a
               href={site.phoneHref}
-              className="flex items-center justify-center gap-2 rounded-brand border border-ink/10 px-5 py-3 font-semibold"
+              className="flex min-h-12 items-center justify-center gap-2 rounded-brand border border-ink/10 px-5 font-semibold active:bg-mist"
             >
               <Icon icon={faPhone} className="text-petrol" /> Bel {site.phone}
             </a>
             <Link
               href="/contact"
-              className="flex items-center justify-center rounded-brand bg-petrol px-5 py-3 font-semibold text-white"
+              className="flex min-h-12 items-center justify-center rounded-brand bg-petrol px-5 font-semibold text-white active:bg-petrol-600"
             >
               Plan een adviesgesprek
             </Link>

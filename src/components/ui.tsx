@@ -16,7 +16,7 @@ const buttonStyles: Record<ButtonVariant, string> = {
 };
 
 export const buttonBase =
-  "group inline-flex items-center justify-center gap-2.5 rounded-brand px-6 py-3.5 text-[15px] font-semibold transition-all duration-300";
+  "group inline-flex items-center justify-center gap-2.5 rounded-brand px-6 py-3.5 text-[15px] font-semibold transition-all duration-300 select-none active:scale-[0.97]";
 
 export function ButtonLink({
   variant = "primary",

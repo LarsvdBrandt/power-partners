@@ -13,7 +13,7 @@ async function CurrentYear() {
 }
 
 const socialClass =
-  "inline-flex size-11 items-center justify-center rounded-brand border border-white/15 transition-colors hover:border-sky hover:text-sky";
+  "inline-flex size-11 items-center justify-center rounded-brand border border-white/15 transition-colors hover:border-sky hover:text-sky active:scale-95";
 
 export function Footer() {
   return (
@@ -64,13 +64,13 @@ export function Footer() {
             <h2 className="text-xs font-semibold tracking-[0.18em] text-sky uppercase">
               Navigatie
             </h2>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-3 lg:mt-5 lg:space-y-3">
               {[{ href: "/", label: "Home" }, ...navigation, { href: "/contact", label: "Contact" }].map(
                 (item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="text-white/75 transition-colors hover:text-white"
+                      className="inline-flex min-h-11 items-center text-white/75 transition-colors hover:text-white active:text-sky lg:min-h-0"
                     >
                       {item.label}
                     </Link>
@@ -84,13 +84,13 @@ export function Footer() {
             <h2 className="text-xs font-semibold tracking-[0.18em] text-sky uppercase">
               Contact
             </h2>
-            <ul className="mt-5 space-y-4 text-white/75">
+            <ul className="mt-3 space-y-1 text-white/75 lg:mt-5 lg:space-y-4">
               <li>
                 <a
                   href={site.mapsHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex gap-3 transition-colors hover:text-white"
+                  className="flex gap-3 py-2.5 transition-colors hover:text-white active:text-sky lg:py-0"
                 >
                   <Icon icon={faLocationDot} className="mt-1 w-4 text-sky" />
                   <span>
@@ -103,7 +103,7 @@ export function Footer() {
               <li>
                 <a
                   href={site.phoneHref}
-                  className="flex items-center gap-3 transition-colors hover:text-white"
+                  className="flex min-h-11 items-center gap-3 break-all transition-colors hover:text-white active:text-sky lg:min-h-0"
                 >
                   <Icon icon={faPhone} className="w-4 text-sky" />
                   {site.phone}
@@ -112,7 +112,7 @@ export function Footer() {
               <li>
                 <a
                   href={site.emailHref}
-                  className="flex items-center gap-3 transition-colors hover:text-white"
+                  className="flex min-h-11 items-center gap-3 break-all transition-colors hover:text-white active:text-sky lg:min-h-0"
                 >
                   <Icon icon={faEnvelope} className="w-4 text-sky" />
                   {site.email}

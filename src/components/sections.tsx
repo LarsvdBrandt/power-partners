@@ -1,6 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import {
+  faArrowRight,
   faBolt,
   faCheck,
   faPhone,
@@ -48,7 +50,9 @@ export function PageHero({
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75">
             {intro}
           </p>
-          {children && <div className="mt-9 flex flex-wrap gap-3">{children}</div>}
+          {children && (
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">{children}</div>
+          )}
         </div>
       </div>
     </section>
@@ -73,7 +77,10 @@ export function IconBadge({
 
 export function ServiceCard({ service }: { service: Service }) {
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-brand border border-ink/5 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-petrol/10">
+    <Link
+      href="/contact"
+      className="group relative flex flex-col overflow-hidden rounded-brand border border-ink/5 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-petrol/10 active:scale-[0.99]"
+    >
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image
           src={service.image}
@@ -90,11 +97,18 @@ export function ServiceCard({ service }: { service: Service }) {
       <div className="relative flex flex-1 flex-col px-7 pt-11 pb-8">
         <IconBadge name={service.icon} className="absolute -top-7 left-7 ring-4 ring-white" />
         <h3 className="text-xl font-semibold">{service.title}</h3>
-        <p className="mt-3 leading-relaxed text-slate-ink">
+        <p className="mt-3 flex-1 leading-relaxed text-slate-ink">
           {service.description}
         </p>
+        <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-petrol">
+          Vraag advies aan
+          <Icon
+            icon={faArrowRight}
+            className="text-xs transition-transform group-hover:translate-x-1"
+          />
+        </span>
       </div>
-    </article>
+    </Link>
   );
 }
 
@@ -206,12 +220,12 @@ export function CtaBanner({
           </h2>
           <p className="mt-5 text-lg text-white/75">{text}</p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <ButtonLink href="/contact" variant="light" arrow>
+            <ButtonLink href="/contact" variant="light" arrow className="w-full sm:w-auto">
               Plan een adviesgesprek
             </ButtonLink>
             <a
               href={site.phoneHref}
-              className={`${buttonBase} border border-white/25 hover:border-white/50 hover:bg-white/10`}
+              className={`${buttonBase} w-full sm:w-auto border border-white/25 hover:border-white/50 hover:bg-white/10`}
             >
               <Icon icon={faPhone} /> {site.phone}
             </a>
